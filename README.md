@@ -61,6 +61,9 @@ scad/
   manual, explicit user decision.
 - **printability-report** — printability violations are reported to 
   the user, never silently auto-fixed.
+- **verify-parametric-geometry** — parametric/organic contours with a 
+  mechanical constraint are verified via a full parameter sweep and 
+  CLI manifold stats, not spot-checked or eyeballed in the preview.
 
 ## Status
 
