@@ -38,7 +38,7 @@ standard 0.4 mm nozzle.
   alone, go slightly tighter (~0.4 mm, not yet tested). See real-part
   finding below.
 
-## Real-part finding: long sliding fit (kartenbox_001, PLA)
+## Real-part finding: long sliding fit (Flip 7 card box, PLA)
 
 Card box, drawer sliding into a sleeve. Contact length ~87 mm, drawer
 walls 1.2 mm, sleeve walls 1.6 mm. Sleeve printed standing (90 mm tall),
@@ -47,7 +47,7 @@ drawer printed lying on its floor.
 | Nominal clearance per side | Result |
 |---|---|
 | 0.25 mm | **Too tight.** Drawer could be pushed in, but was very hard to get out again. |
-| 0.50 mm | **Slides well** ("flutscht"). Without the magnets probably slightly too loose; with magnets holding it closed, it works. (Sleeve from `kartenbox_002`, same drawer as 001.) |
+| 0.50 mm | **Slides well** ("flutscht"). Without the magnets probably slightly too loose; with magnets holding it closed, it works. (Sleeve from `kartenbox_flip7_002`, same drawer as `kartenbox_flip7_001`.) |
 
 Explanation (not measured, inferred):
 - The effective X/Y error (~0.15–0.2 mm per side, see above) is taken off
@@ -65,7 +65,8 @@ without a holding element).
 
 ## Open items
 - Test ~0.4 mm per side for long sliding fits that must hold by friction
-  alone (e.g. via the `fit_test` rings in `kartenbox_002`).
+  alone (e.g. via the `fit_test` rings in `kartenbox_flip7_002`, or the
+  `kartenbox_uno_002` print at 0.4 mm).
 - If possible, measure where a tight long slide actually binds (caliper:
   outer drawer vs. inner sleeve, at the ends and in the middle) to tell
   wall bowing apart from general X/Y error.
