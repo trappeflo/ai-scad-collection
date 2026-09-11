@@ -31,23 +31,24 @@ standard 0.4 mm nozzle.
   ("contour/hole compensation" or "elephant foot compensation") in the
   slicer.
 - **Long sliding fits** (drawers, sleeves, slide-in lids — contact length
-  of several cm, thin walls): plan for **~0.5 mm clearance per side**
-  (nominal, in the CAD model), not the 0.2–0.25 mm above. 0.5 mm slides
-  easily but is on the loose side — fine when something else holds the
-  part in place (magnets, latch). For a slide that has to hold by friction
-  alone, go slightly tighter (~0.4 mm, not yet tested). See real-part
-  finding below.
+  of several cm, thin walls): plan for **~0.4 mm clearance per side**
+  (nominal, in the CAD model), not the 0.2–0.25 mm above. 0.4 mm still
+  slides easily; 0.5 mm is on the loose side. 0.25 mm is too tight. The
+  lower limit lies somewhere between 0.25 and 0.4 mm — next time try
+  ~0.35 mm. See real-part findings below.
 
-## Real-part finding: long sliding fit (Flip 7 card box, PLA)
+## Real-part findings: long sliding fit (card boxes, PLA)
 
-Card box, drawer sliding into a sleeve. Contact length ~87 mm, drawer
-walls 1.2 mm, sleeve walls 1.6 mm. Sleeve printed standing (90 mm tall),
-drawer printed lying on its floor.
+Card boxes, drawer sliding into a sleeve. Drawer walls 1.2 mm, sleeve
+walls 1.6 mm. Sleeve printed standing, drawer printed lying on its floor.
+- Flip 7 box: contact length ~87 mm, sleeve 90 mm tall.
+- UNO box: contact length ~94 mm, sleeve ~97 mm tall.
 
-| Nominal clearance per side | Result |
-|---|---|
-| 0.25 mm | **Too tight.** Drawer could be pushed in, but was very hard to get out again. |
-| 0.50 mm | **Slides well** ("flutscht"). Without the magnets probably slightly too loose; with magnets holding it closed, it works. (Sleeve from `kartenbox_flip7_002`, same drawer as `kartenbox_flip7_001`.) |
+| Nominal clearance per side | Box | Result |
+|---|---|---|
+| 0.25 mm | Flip 7 (`kartenbox_flip7_001`) | **Too tight.** Drawer could be pushed in, but was very hard to get out again. |
+| 0.40 mm | UNO (`kartenbox_uno_002`) | **Slides easily** ("reicht locker"). Room to go slightly tighter. |
+| 0.50 mm | Flip 7 (sleeve `kartenbox_flip7_002`, drawer 001) | **Slides well** ("flutscht"). Without the magnets probably slightly too loose; with magnets holding it closed, it works. |
 
 Explanation (not measured, inferred):
 - The effective X/Y error (~0.15–0.2 mm per side, see above) is taken off
@@ -56,17 +57,16 @@ Explanation (not measured, inferred):
 - The small test-block pieces are short and stiff. Long, thin walls
   probably also bow slightly inward (especially tall walls printed
   standing), which the test block does not capture.
-- Rule of thumb derived from this: target ~0.3 mm effective clearance
-  ("fully movable" in the test block) + ~0.2 mm X/Y error = **~0.5 mm
-  nominal per side**.
+- First estimate was target ~0.3 mm effective clearance + ~0.2 mm X/Y
+  error = 0.5 mm nominal. In practice 0.4 mm already slides easily, so
+  the real loss on long slides is smaller than that estimate assumed.
 
-Status: **0.5 mm confirmed by print** (slides well, slightly loose
-without a holding element).
+Status: **0.4 mm confirmed by print** (slides easily), 0.5 mm confirmed
+(loose side). Recommended default for long slides: **0.4 mm**.
 
 ## Open items
-- Test ~0.4 mm per side for long sliding fits that must hold by friction
-  alone (e.g. via the `fit_test` rings in `kartenbox_flip7_002`, or the
-  `kartenbox_uno_002` print at 0.4 mm).
+- Try ~0.35 mm per side on the next long sliding fit (drawer/sleeve) to
+  narrow down the lower limit between 0.25 (too tight) and 0.4 (easy).
 - If possible, measure where a tight long slide actually binds (caliper:
   outer drawer vs. inner sleeve, at the ends and in the middle) to tell
   wall bowing apart from general X/Y error.
