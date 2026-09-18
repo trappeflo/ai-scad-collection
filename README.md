@@ -54,9 +54,11 @@ SETUP.md     Setup guide
    `scad/draft/` (`object-name_001.scad`).
 3. **Preview** — `render-preview` skill renders the current draft for
    visual review.
-4. **Validate** — `geometry-check` skill (qa-agent) checks the model
-   against wall thickness, build volume, and manifold-geometry rules.
-   Violations are reported explicitly, never auto-fixed.
+4. **Validate** — `geometry-check` skill (qa-agent, running as a
+   separate subagent without the design reasoning) checks the model
+   against wall thickness (including residual widths after chamfers),
+   build volume, manifold geometry, and, for load-bearing parts, the
+   load cases. Violations are reported explicitly, never auto-fixed.
 5. **Export** — `export-stl` skill exports to `.stl`, only after
    `geometry-check` has passed.
 6. **Print and iterate** — feedback from the real print ("too tight",
@@ -95,6 +97,9 @@ SETUP.md     Setup guide
   manual, explicit user decision.
 - **printability-report** — printability violations are reported to
   the user, never silently auto-fixed.
+- **load-case-check** — parts that carry something get their governing
+  failure mode (breaking, tipping, sliding) calculated for the worst-case
+  load combination, with the calculation as `echo()` in the file.
 - **verify-parametric-geometry** — parametric/organic contours with a
   mechanical constraint are verified via a full parameter sweep and
   CLI manifold stats, not spot-checked or eyeballed in the preview.
@@ -109,6 +114,9 @@ Details in [context/tolerances.md](context/tolerances.md).
 - **Long sliding fits** (drawer in sleeve, ~90 mm contact length):
   0.25 mm per side was too tight, **0.4 mm slides easily** (current
   default), 0.5 mm is on the loose side. Next to try: ~0.35 mm.
+- **Flat insert in a shallow rim** (pin badge, 40 x 25 mm): 0.3 mm per
+  side too tight, 0.5 mm too loose. Next to try: ~0.4 mm, measure the
+  insert first.
 - For new fits, a quick `fit_test` print (thin rings with several
   clearances) saves a failed full print.
 
@@ -128,7 +136,9 @@ inputs, or set them directly in the OpenSCAD Customizer
 |---|---|---|
 | `lampenschirm_010`, `_013` | finished | Organic wavy lamp shade with integrated clamp collar |
 | `kartenbox_flip7_002` | finished | Card box (Flip 7), drawer + sleeve, magnetic catch (6x2 mm), 0.5 mm slide clearance |
-| `kartenbox_uno_002` | draft | Card box (UNO Minecraft), same design, 0.4 mm slide clearance — printed, works |
+| `kartenbox_uno_002` | finished | Card box (UNO Minecraft), same design, 0.4 mm slide clearance — printed, works |
+| `laptop_tablet_staender_003` | finished | Vertical laptop/tablet stand, two slots in one part, flared foot against tipping |
+| `pin_magnetsockel_002` | finished | Magnet base that turns a rectangular pin badge (40 x 25 mm) into a fridge magnet, pin stays unmodified |
 
 ## Status
 

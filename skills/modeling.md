@@ -40,3 +40,30 @@ Translates the previously gathered requirements into OpenSCAD code.
   forces the exact computation so the interactive preview matches what
   actually gets exported — cheap insurance against a user report of
   "this looks broken" that is really just a preview artifact.
+- **Every file ends with a `render_part` switch**
+  (`render_part = true; if (render_part) part();`). A file that renders
+  unconditionally at top level can't be `include`d into a check script
+  that does `projection(cut=true)`: OpenSCAD refuses to mix the 2D cut
+  with the 3D top-level object. The check script sets
+  `render_part = false;` after the `include` (last assignment wins), or
+  passes `-D render_part=false`.
+- **Measure cross-sections, don't just look at them.** Export
+  `projection(cut = true) translate([0, 0, -z]) part();` as SVG via the
+  CLI (`-D cutz=<z>`), parse the coordinates, and compare the X/Y
+  extents and inner edges against the values you expect. This verifies
+  slot widths, tapers (at mid-height of a linear taper the width must
+  be exactly halfway), and where roundings start, to within a tenth of
+  a millimeter. Pick heights just inside each feature boundary (e.g.
+  0.1 mm below a chamfer start), because that's where errors show.
+- **Stacked edge treatments eat walls.** Before adding a chamfer or
+  fillet to a thin wall, compute what's left of the wall (e.g.
+  `wall_t - mouth_c - edge_c`) and `assert()` it against 2x nozzle.
+  Keep the functional chamfer (e.g. an insertion funnel) larger and
+  the cosmetic one smaller, instead of using one value for both.
+- **Round or taper a silhouette with a mask, not by rebuilding it.**
+  A 2D shape in the (Y, Z) plane, extruded along X and intersected
+  with the part (`rotate([90, 0, 90])` maps 2D-x→Y, 2D-y→Z,
+  extrusion→X), rounds the top corners of every rib at once. For a
+  foot that tapers on all sides, use `hull()` between a wide bottom
+  slab and a thin slab the size of the body at the top of the taper.
+  The hull carries the corner radii of both outlines automatically.

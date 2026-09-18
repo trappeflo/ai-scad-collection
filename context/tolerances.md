@@ -64,6 +64,26 @@ Explanation (not measured, inferred):
 Status: **0.4 mm confirmed by print** (slides easily), 0.5 mm confirmed
 (loose side). Recommended default for long slides: **0.4 mm**.
 
+## Real-part findings: flat insert in a shallow rim (pin magnet base, PLA)
+
+A rectangular pin badge (nominal 40 x 25 mm, corner radius ~1 mm) lies
+flat in a surrounding rim of 1.5 mm height and 1.6 mm wall thickness.
+The part is printed flat, so the pocket outline lies in XY and the
+contact height is only 1.5 mm.
+
+| Nominal clearance per side | Version | Result |
+|---|---|---|
+| 0.30 mm | `pin_magnetsockel_001` | **Too tight.** Pin didn't fully fit into the rim. |
+| 0.50 mm | `pin_magnetsockel_002` | **Too loose.** |
+
+Takeaway: the boundary lies between 0.3 and 0.5 mm. That's noticeably
+more than the 0.2–0.25 mm that the short test-block pieces call
+"movable". Not clarified: whether the pin was measured with calipers
+or only given as nominal 40 x 25 mm. Stamped/enamel pins deviate
+easily by a few tenths, which would explain part of the gap.
+→ Next time: measure the insert with calipers and try **~0.4 mm**
+per side.
+
 ## Open items
 - Try ~0.35 mm per side on the next long sliding fit (drawer/sleeve) to
   narrow down the lower limit between 0.25 (too tight) and 0.4 (easy).
@@ -71,5 +91,7 @@ Status: **0.4 mm confirmed by print** (slides easily), 0.5 mm confirmed
   outer drawer vs. inner sleeve, at the ends and in the middle) to tell
   wall bowing apart from general X/Y error.
 - Test the 0.05–0.15 mm steps individually and add results here.
+- Flat insert in a rim: narrow down between 0.3 (too tight) and 0.5
+  (too loose), measure the insert first (see above).
 - Check whether values differ between the two PLA spools (black/blue, see
   `materials.md`).
