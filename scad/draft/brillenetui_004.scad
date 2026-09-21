@@ -57,6 +57,12 @@
 //   Reliefflächen an den Seiten sind höchstens overhang_max aus der Senkrechten
 //   geneigt (per assert geprüft, für Schale UND umgedrehten Deckel).
 //
+// hinge_test (Nachtrag, Geometrie des Etuis unverändert): Ausschnitt aus
+// echter Schale + Deckel um das linke Scharnier, in derselben Druckausrichtung
+// wie die echten Teile. Prüft in PETG: Presssitz Stift, freie Drehung,
+// Druckqualität der Kristall-Augen und Stützkeile. Schnittflächen liegen
+// auf dem Bett. Montage: Stift von außen durch alle 3 Augen einpressen.
+//
 // Magnete einkleben: POLUNG BEACHTEN (jedes Paar muss sich anziehen).
 
 /* [Brille (zusammengeklappt)] */
@@ -85,9 +91,10 @@ tilt = 0.4;         // [0:0.01:0.5]
 /* [Ausgabe] */
 // print = alles in Druckausrichtung, base/lid/inlay_base/inlay_lid = Einzelteile,
 // relief_preview = nur die Kristallhülle (schnell, zum Seed-Aussuchen),
-// fit_test = Bohrungstest für die Stifte, assembly = zusammengebaut,
+// fit_test = Bohrungstest für die Stifte, hinge_test = Scharnier-Ausschnitt,
+// assembly = zusammengebaut,
 // interference = Kollisionsprüfung über den Öffnungswinkel (muss leer sein)
-part = "print";   // [print, base, lid, inlay_base, inlay_lid, relief_preview, fit_test, assembly, interference]
+part = "print";   // [print, base, lid, inlay_base, inlay_lid, relief_preview, fit_test, hinge_test, assembly, interference]
 // Nur für assembly: Öffnungswinkel des Deckels (°)
 open_angle = 100; // [0:5:180]
 
@@ -461,6 +468,26 @@ module fit_test() {
 // ---- Ausgabe ----
 module lid_print() { translate([0, 0, H]) rotate([180, 0, 0]) lid(); }
 
+// ---- Scharnier-Ausschnitt (linkes Scharnier) ----
+ht_margin_x = 6;    // Etui links/rechts vom Scharnier
+ht_depth_y  = 8;    // so weit reicht der Ausschnitt ins Etui (Wand + Luft)
+ht_foot     = 2;    // Wand unter/über dem Stützkeil
+ht_zlo = z_p - gusset - ht_foot;          // Schnitt Schale (-> Bett)
+ht_zhi = z_p + gusset + ht_foot;          // Schnitt Deckel (-> Bett)
+assert(ht_zlo > floor_t && ht_zhi < H - top_t, "hinge_test: Schnitt liegt im Boden/Deckel");
+module ht_box(z0, z1) {
+    translate([hinge_x[0] - ht_margin_x, W - ht_depth_y, z0])
+        cube([pin_l + 2 * ht_margin_x, ht_depth_y + 20, z1 - z0]);
+}
+module hinge_test() {
+    // Schale: aufrecht, Schnitt bei ht_zlo aufs Bett
+    translate([0, 0, -ht_zlo]) intersection() { base(); ht_box(ht_zlo, z_p + lip_h + 1); }
+    // Deckel: umgedreht wie der echte Deckel, Schnitt bei ht_zhi aufs Bett,
+    // hinter die Schale gelegt
+    translate([0, 2 * W + 40, ht_zhi]) rotate([180, 0, 0])
+        intersection() { lid(); ht_box(z_p - 1, ht_zhi); }
+}
+
 if (part == "print") {
     color(col_shell) render(convexity = 10) base();
     color(col_shell) translate([0, -12 - relief_top, 0]) render(convexity = 10) lid_print();
@@ -476,6 +503,8 @@ if (part == "print") {
     render(convexity = 10) inlay(inlay_lid_h);
 } else if (part == "relief_preview") {
     color(col_shell) outer_solid(0, H);
+} else if (part == "hinge_test") {
+    color(col_shell) render(convexity = 10) hinge_test();
 } else if (part == "fit_test") {
     render(convexity = 10) fit_test();
 } else if (part == "assembly") {
