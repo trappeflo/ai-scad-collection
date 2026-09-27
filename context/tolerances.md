@@ -84,7 +84,35 @@ easily by a few tenths, which would explain part of the gap.
 → Next time: measure the insert with calipers and try **~0.4 mm**
 per side.
 
+## Real-part findings: press fits in PETG (glasses case, `brillenetui_004`)
+
+Shell printed in PETG (base upright, lid upside down), 0.4 mm nozzle.
+User assessment only ("ließen sich sehr gut einpressen"), not measured.
+
+| Fit | Geometry | Nominal clearance per side | Result |
+|---|---|---|---|
+| Steel pin Ø3 x 30 mm in the base knuckles | horizontal bore Ø3.2 (axis along X, bore ceiling is an overhang), `$fn = 48` | 0.10 mm | **Good press fit**, pressed in well |
+| Neodymium magnet Ø6 x 2 mm | vertical pocket Ø6.3 x 2.1 mm, 0.90 mm web to the outside | 0.15 mm | **Good press fit**, pressed in well, web held |
+| Lid knuckles on the Ø3 steel pin (pivot) | horizontal bore Ø3.6 | 0.30 mm | **Swings freely**, "could sit minimally tighter" → next time ~0.25 mm |
+
+Also: at hinge 2 the pin path ran 0.27 mm into a relief facet at the
+entry. The pin was pressed in from that side without trouble. A few
+tenths of printed PETG in the way of a steel pin are no obstacle.
+
+Takeaways:
+- In PETG the 0.10–0.15 mm range works as a press fit for both a
+  horizontal bore and a vertical pocket, consistent with the PLA test
+  block ("0.05–0.15 stays fixed").
+- The QA had rated the magnet pocket as "≈0 effective clearance, glue
+  instead of pressing" (effective X/Y error ~0.15–0.2 mm from PLA). For
+  small round press fits in PETG that was too pessimistic.
+- Free pivot in PETG: 0.30 mm per side turns freely, slightly loose.
+  The lower limit is somewhere below; ~0.25 mm is the next value to try.
+
 ## Open items
+- PETG pivot: try ~0.25 mm per side (bore 3.5 on a Ø3 pin) next time.
+- TPU: no values yet. First data point: `brillenetui_004` inlays, 0.3 mm
+  per side in the PETG cavity (untested).
 - Try ~0.35 mm per side on the next long sliding fit (drawer/sleeve) to
   narrow down the lower limit between 0.25 (too tight) and 0.4 (easy).
 - If possible, measure where a tight long slide actually binds (caliper:

@@ -1,12 +1,9 @@
-# OpenSCAD-KI-Workflow
+@AGENTS.md
 
-KI-gestützter OpenSCAD-Workflow für 3D-Druck. Ziel ist Zeitersparnis gegenüber klassischem CAD durch KI-unterstützte Modellierung.
+## Claude-Code-Adapter
 
-## Vorgehen
+Alles Inhaltliche steht in `AGENTS.md` und den verlinkten Dateien. Hier nur, was Claude Code zusätzlich automatisiert:
 
-- Vor jedem Modellierungs-Task müssen die Dateien in `context/*.md` gelesen werden (Drucker-Eigenschaften, Toleranzen, Materialien).
-- Fertige Modelle werden **nicht automatisch** vom Agenten nach `ergebnisse/` verschoben. Das Verschieben erfolgt ausschließlich nach manueller Freigabe durch den Nutzer.
-
-## Skills
-
-_Noch leer, wird später ergänzt._
+- **Subagent** `qa-agent` (`.claude/agents/qa-agent.md`): QA in frischem Kontext, ohne Edit/Write-Werkzeug.
+- **Befehle** `/neues-objekt` und `/druckfeedback` (`.claude/skills/`): dünne Hüllen um `prompts/neues-objekt.md` und `prompts/druckfeedback.md`. Nicht verwechseln mit `skills/` im Repo (Workflow-Bausteine der Agents).
+- **Hook** (`.claude/settings.json`): Nach jedem Write/Edit einer `.scad`-Datei läuft automatisch `python tools/check.py --hook` (= Schnellprüfung).

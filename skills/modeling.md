@@ -15,6 +15,21 @@ Translates the previously gathered requirements into OpenSCAD code.
 - Follows the `units-mm` rule.
 - Before delivery, follows rule `verify-parametric-geometry` for any
   parametric/organic contour with a mechanical constraint.
+- **File header contains the requirements table** from the design
+  conversation (ID, requirement, target, source, check method), carried
+  over and updated from version to version. The `qa-agent` checks
+  against it (gate stages G2/G3, rule `pre-print-gate`).
+- **Requirements become `assert()`s where they can.** Everything that
+  can be computed from the parameters (inner size ≥ content + clearance,
+  residual wall ≥ 2x nozzle, part fits the build volume, overhang ≤
+  limit) is an `assert()` with a readable message. Then a later
+  parameter change cannot silently break a requirement.
+- **Avoid the failure modes** in `context/failure-modes.md` (e.g. `d =`
+  instead of `r =`, clearance in exactly one place, `$fn` for fit
+  holes, cutters with overlap).
+- **Before handing over to QA**: `python tools/check.py <file> --part
+  ... --cut ...` as a self-check (G1). A draft that fails G1 does not go
+  to QA. The final verdict is still the `qa-agent`'s.
 
 ## Technique notes (learned from past bugs)
 

@@ -10,9 +10,10 @@ only the install commands and paths differ.
 |---|---|---|
 | **Git** | Version control for models and context | Any recent version |
 | **OpenSCAD** | Renders the `.scad` models, CLI is used for manifold checks and STL export | Reference setup: 2021.01. Download from [openscad.org](https://openscad.org/downloads.html) |
-| **Claude Code** | Runs the design and QA agents | VS Code extension or CLI. On Windows e.g. `winget install Anthropic.ClaudeCode` |
+| **Claude Code** (reference) | Runs the design and QA agents | VS Code extension or CLI. On Windows e.g. `winget install Anthropic.ClaudeCode`. Other AI tools work too, see README "Vendor independence and migration" |
 | **VS Code** | Editor, hosts Claude Code and the OpenSCAD extensions | Optional if you use the Claude Code CLI only |
 | **Slicer** | Turns the exported STL into G-code | Any slicer with a profile for your printer |
+| **Python 3** | Runs `tools/check.py` (pre-print check, hook) | Standard library only, no packages needed |
 
 ### Make the OpenSCAD CLI reachable
 
@@ -57,6 +58,7 @@ them blindly.
 | `context/printer.md` | Printer specs, build volume, nozzle, bed, calibration observations (overhangs, bridges, stringing) | Printer datasheet + a calibration print (e.g. the test block linked in the file) |
 | `context/tolerances.md` | Clearance per side that moves / stays fixed, effective X/Y error, real-part findings | Print a tolerance test (0.05–0.30 mm steps), check by hand; add results from real parts (e.g. "0.25 mm too tight on a long slide") |
 | `context/materials.md` | Filament type, brand, color, temperatures, quirks | Currently empty — fill in as you go |
+| `context/failure-modes.md` | Errors that render fine but are wrong, and which check stage catches them | Grows with every error that got past a stage |
 
 Keep these files alive: whenever a print teaches you something ("too
 tight", "wall too thin", "bridge sagged"), ask the agent to transfer the
@@ -78,17 +80,30 @@ Expected at the end of the output:
 ```
 
 `Volumes: 2` means one watertight part (interior + exterior). If this
-works, the agents can run their checks too.
+works, the agents can run their checks too. Then try the check script:
+
+```powershell
+python tools/check.py scad/finished/kartenbox_flip7_002.scad --part drawer=2 --cut 5 --out "$env:TEMP\check"
+```
+
+It writes `check.md` with the stats, bounding box, section contours and
+preview images to the output folder.
 
 ## 5. Your first design session
 
 Open the Claude Code panel in VS Code (or run `claude` in the repo
-folder) and address the design agent by referencing its file:
+folder) and start with the project command `/neues-objekt`. It loads the
+design agent, the rules and the context, and follows the pre-print
+gate:
 
 ```
-@agents/design-agent.md I need a box for a card game, the stack is 80 x 54 x 36 mm.
+/neues-objekt a box for a card game, the stack is 80 x 54 x 36 mm.
 Not sure how to close it — make suggestions.
 ```
+
+(Referencing `@agents/design-agent.md` directly also works, but the
+command makes sure no step is skipped.) After a print, report back with
+`/druckfeedback <file> <what happened>`.
 
 What happens next:
 
@@ -97,7 +112,12 @@ What happens next:
    ("roughly measured") are fine, just say so.
 2. **Draft.** It writes `scad/draft/<name>_001.scad`, checks it with the
    OpenSCAD CLI, and reports dimensions and thin spots.
-3. **Render and export.** Open the file in OpenSCAD. Multi-part models
+3. **Check before printing.** The agent starts the `qa-agent`, which
+   runs gate stages G1–G4 (rule `pre-print-gate`) and writes
+   `qa/<file>/report.md` with preview images. Look at the images and the
+   findings, then release explicitly: "`<file>` release for printing".
+   New fits get a `fit_test` release first.
+4. **Render and export.** Open the file in OpenSCAD. Multi-part models
    have a `part` parameter at the top, e.g.:
 
    | `part` | Output |
@@ -108,11 +128,11 @@ What happens next:
    | `"fit_test"` | small test pieces to check a fit before the full print |
 
    Render with **F6** (not only F5 preview), then export the STL.
-4. **Print and give feedback.** "Too tight", "wall bends", "magnets
+5. **Print and give feedback.** "Too tight", "wall bends", "magnets
    don't line up" — the agent creates `_002`, `_003`, … Files are never
    overwritten (rule `versioning`).
-5. **Independent check (optional).** `@agents/qa-agent.md check
-   scad/draft/<file>` validates without touching the design.
+   The agent records the result in the QA report (skill
+   `print-feedback`).
 6. **Approve.** Tell the agent explicitly, e.g. "`<file>` is finished".
    Only then is it moved to `scad/finished/` (rule `no-auto-promote`).
 

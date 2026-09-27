@@ -1,0 +1,15 @@
+# Claude Code: personal settings (allowed commands etc.), not shared
+.claude/settings.local.json
+
+# QA working data (images, sections, logs, probes): reproducible with the
+# commands in the report. Only qa/<file>/report.md is versioned.
+qa/*/*/
+
+# Python
+__pycache__/
+*.pyc
+
+# Print files: regenerated from the .scad source, not versioned
+*.stl
+*.3mf
+*.gcode

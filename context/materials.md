@@ -2,6 +2,10 @@
 
 ## Filament in use
 - PLA (black and blue spools, see `tolerances.md` open items)
+- PETG: first part printed 2026-09-27 (`brillenetui_004` shell), good
+  result; press-fit values in `tolerances.md`. Brand, temperatures,
+  strength: not documented yet
+- TPU: planned (`brillenetui_004` inlays), no data yet
 - Brand, temperatures, quirks: _not documented yet_
 
 ## Assumptions for calculations (NOT measured)
