@@ -22,7 +22,7 @@ Replace them with measured values once available.
 | Layer adhesion (across layers, Z) | **25 MPa** | deliberately conservative, about half of XY. Governs bending of anything printed standing up (ribs, walls, arms) |
 | Young's modulus E | 3500 MPa | for deflection estimates |
 
-Not validated by a print yet. First candidate:
-`laptop_tablet_staender_003` (ribs calculated at a safety factor of ~32).
-If a rib flexes noticeably or cracks at the root, the 25 MPa is too
-optimistic.
+Not validated yet. `laptop_tablet_staender_003` (ribs calculated at a
+safety factor of ~32) is printed and in use, "steht gut"; no rib
+flexing reported, but the ribs were not examined specifically. If a rib flexes noticeably or cracks at the root, the
+25 MPa is too optimistic.

@@ -109,6 +109,34 @@ Takeaways:
 - Free pivot in PETG: 0.30 mm per side turns freely, slightly loose.
   The lower limit is somewhere below; ~0.25 mm is the next value to try.
 
+## Real-part findings: clamp ring on a round rod (lamp shade, PLA)
+
+`lampenschirm_013`, printed in PLA. User assessment only ("passt gut"),
+not measured.
+
+| Fit | Geometry | Nominal | Result |
+|---|---|---|---|
+| C-ring clamp on a Ø20 metal rod, snapped on from the side | ring ID 19.2 mm, wall 3 mm, opening 40°, 180 mm tall | **−0.4 mm per side** (0.8 mm undersize on the diameter, as preload) | **Fits well** |
+
+Takeaway: for a snap-on C-ring with a 3 mm PLA wall, 0.8 mm undersize
+on the diameter gives a good clamp and still snaps on. Stiffer rings
+(thicker wall, smaller opening) probably need less.
+
+## Real-part findings: loose device slot + angled USB-C plug (PocketBook stand, PLA)
+
+`pocketbook_ladestaender_003`, fit_test printed 2026-09-28. User
+assessment only ("zufrieden"), no measured values.
+
+| Fit | Geometry | Nominal clearance | Result |
+|---|---|---|---|
+| E-reader with case (~13 mm, approx. measured) in a leaning slot (70°) | slot 15 mm, device leans on the backrest | 2 mm total | OK (assessment) |
+| Angled USB-C plug (UGREEN 90°, not measured) hanging in a shaft under the device | shaft 70 x 17 x 22 mm deep, plug assumed 12 x 7 x 15 | ≥ 5 mm per side, 7 mm below | OK (assessment) |
+| Cable from the plug into a channel open at the top | channel 6 mm wide, cable assumed Ø4, bend room ≤ ~8.7 mm radius | 1 mm per side | OK (assessment) |
+
+Takeaway: no tolerance value to derive (loose fits, sizes assumed). It
+only confirms that these generous assumptions were enough for this
+cable and device.
+
 ## Open items
 - PETG pivot: try ~0.25 mm per side (bore 3.5 on a Ø3 pin) next time.
 - TPU: no values yet. First data point: `brillenetui_004` inlays, 0.3 mm

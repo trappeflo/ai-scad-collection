@@ -208,18 +208,44 @@ Not fixed by QA (rule `printability-report`).
 
 - Released by the user (2026-09-27, verbatim): "pocketbook_ladestaender_003 Freigabe zum Druck, nur fit_test"
 - Scope: `fit_test` only. The full stand is not released (popsocket position to be measured first, fit test result pending).
+- Released by the user (2026-09-28, after the fit test, verbatim): "ich habe den fittest gedruckt und ich bin damit zufrieden. ich möchte nun @scad/draft/pocketbook_ladestaender_003.scad drucken"
+- Scope: full stand (`print`). **Accepted risk:** the popsocket position (x 51, u 39) is still estimated, not measured (finding 2); the fit_test covers only the pocket bottom and right wall. The user had been told this before the release and did not measure.
 
 ## Export
 
 - 2026-09-27: `fit_test` → `qa/pocketbook_ladestaender_003/pocketbook_ladestaender_003_fit_test.stl` (local, not versioned). Command: `openscad -o qa/pocketbook_ladestaender_003/pocketbook_ladestaender_003_fit_test.stl -D 'part="fit_test"' scad/draft/pocketbook_ladestaender_003.scad`. Log: `Simple: yes`, `Volumes: 2`.
+- 2026-09-28: `print` (full stand) → `qa/pocketbook_ladestaender_003/pocketbook_ladestaender_003_print.stl` (local, not versioned). Command: `openscad -o qa/pocketbook_ladestaender_003/pocketbook_ladestaender_003_print.stl -D 'part="print"' scad/draft/pocketbook_ladestaender_003.scad`. Log: `Simple: yes`, `Volumes: 2`.
 
 ## Print result
 
-_After printing, skill `print-feedback`._
+### fit_test (reported 2026-09-28)
+
+Material PLA (per requirements; slicer settings not reported). User
+assessment only: "ich habe den fittest gedruckt und ich bin damit
+zufrieden". No single observations or measured values given; the user
+moved straight on to the full stand. Rows below are recorded as "OK by
+overall assessment", not as individually confirmed.
+
+| ID | Observation in the print | Matches prediction? |
+|---|---|---|
+| R2 slot / R9 lip | OK (overall assessment) | yes, as far as reported |
+| R4/R5/R6 plug in shaft, supports | OK (overall assessment); plug length/port position not measured | yes, as far as reported |
+| R7 channel / cable bend (finding 4: max bend radius ~8.7 mm, assumed Ø4 cable) | OK (overall assessment) | yes, as far as reported |
+| R12 printable without supports, shaft chamfer | printed, no problem reported | yes |
+| R8 popsocket | only pocket bottom/right wall in the fit_test; not reported | open → full print |
+
+- Escaped defects: none reported.
+- Findings vs. result: finding 4 (fit_test limits, cable bend) was a
+  justified reservation, the test was then passed. Finding 2 (popsocket
+  position) remains open and was accepted as a risk for the full print.
+- Fit findings → `context/tolerances.md`: entry "PocketBook charging stand"
+  (assessment only, not measured).
+
+### Full stand (`print`)
+
+_Open: to be filled in after printing (skill `print-feedback`). Watch
+especially R8 (popsocket vs. pocket bottom/left wall) and R11 (stability)._
 
 | ID | Observation in the print | Matches prediction? |
 |---|---|---|
 | | | |
-
-- Escaped defects → added to `context/failure-modes.md` as: …
-- Fit findings → `context/tolerances.md`: …
